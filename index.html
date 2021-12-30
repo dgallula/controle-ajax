@@ -1,0 +1,78 @@
+// // https://restcountries.com/v3.1/name/{name}
+
+// https://restcountries.com/v3.1/name/united
+
+
+// a) numbers of countries 
+// b) population 
+// c) average 
+
+
+$(() => {
+  console.log('j query est correctement installé')
+
+  const initList = () => {
+    let list = `
+    <ol>
+    <li value="1">Countries</li>
+    <li>numbers</li>
+    <li>population</li>
+    <li>averave</li>
+  </ol>
+    `
+
+    $('#list-table').append(list)
+  }
+  
+  initList()
+
+  const loadDataToList = (list)=> {
+     let listBodyElement = $("#list-results-input")
+
+     let sumOfPopulation = 0
+     for(let i of list){
+         sumOfPopulation += i.population
+     }
+
+     let averageOfPopulation =0 
+     for (let i of  list ) {
+          averageOfPopulation = sumOfPopulation/list.length
+     }
+
+
+     let rows= `<ol>
+        <li value="1">${list.length}</li>
+        <li value="1">${sumOfPopulation}</li>
+        <li value="1">${ averageOfPopulation}</li>
+      </ol>
+        `
+
+
+    listBodyElement.append(rows)
+  }
+
+  
+  $("#load-all-countries").click(function (e) {
+    e.preventDefault()
+
+    $.ajax({
+        url: 'https://restcountries.com/v3.1/all',
+        success: data => {
+            console.log(data)
+            loadDataToList(data)
+        }
+    })
+})
+
+
+$("#post-name-search").click(function (e) {
+    e.preventDefault()
+    let postId = $("#post-name-input").val()
+    console.log(postId)
+    $.ajax({
+          url: `https://restcountries.com/v3.1/name/${name}/united`,
+        success: data => {
+            loadDataToTable(data)
+        }
+    })
+})
